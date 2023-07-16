@@ -1,0 +1,25 @@
+---
+
+- hosts: localhost
+
+  tasks:
+    - name: Lanuch an instance
+      openstack.cloud.server:
+        state: present
+        name: "{{ instance_name }}"
+        image: "{{ image_name }}"
+        boot_from_volume: true
+        volume_size: "{{ os_volume_size }}"
+        terminate_volume: true
+        flavor: "{{ flavor_name }}"
+        network: "{{ network_name }}"
+        security_groups: ["{{ security_group_name }}"]
+        timeout: 200
+        wait: yes
+        userdata: |
+          #cloud-config
+          chpasswd:
+            list: |
+              root:password
+              expire: false
+      register: instance_info
