@@ -1,0 +1,59 @@
+---
+
+- hosts: all
+
+  tasks:
+
+    - name: Get cluster
+      vmware.vmware_rest.vcenter_cluster_info:
+      register: cluster
+
+    - name: Get datacenter
+      vmware.vmware_rest.vcenter_datacenter_info:
+      register: datacenter
+
+    - name: Get datastores
+      vmware.vmware_rest.vcenter_datastore_info:
+      register: datastores
+
+    - name: Get folders
+      vmware.vmware_rest.vcenter_folder_info:
+      register: folder
+
+    - name: Get Resource pool
+      vmware.vmware_rest.vcenter_resourcepool_info:
+      register: resource
+
+    - name: Get Network
+      vmware.vmware_rest.vcenter_network_info:
+        types: "DISTRIBUTED_PORTGROUP"
+        names: "{{ network_name }}"
+      register: network
+
+    - name : Create a VM
+      vmware.vmware_rest.vcenter_vm:
+        placement:
+          cluster: "{{ cluster.value[0].cluster }}"
+          datastore: "{{ datastores.value[0].datastore }}"
+          folder: "{{ folder.value[15].folder }}"
+          resource_pool: "{{ resource.value[2].resource_pool }}"
+        name: "{{ vm_name }}"
+        guest_OS: "{{ os_name }}"
+        hardware_version: VMX_19
+        power_on: true
+        cpu:
+          count: "{{ cpu_cnt }}"
+        memory:
+          hot_add_enabled: true
+          size_MiB: "{{ memory_mib }}"
+        disks:
+        - type: SATA
+          new_vmdk:
+            name: "{{ disk_name }}"
+            capacity: "{{ disk_size }}"
+        nics:
+        - backing:
+            type: "{{ network.value[0].type }}"
+            network: "{{ network.value[0].network }}"
+      register: my_vm
+
