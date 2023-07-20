@@ -5,6 +5,7 @@
   tasks:
     - name: Select ami image
       amazon.aws.ec2_ami_info:
+        region: "{{ region_name }}"
         filters:
           name: "{{ os_name }}"
       register: ami_info
