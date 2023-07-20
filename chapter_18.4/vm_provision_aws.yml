@@ -6,7 +6,8 @@
     - name: Select ami image
       amazon.aws.ec2_ami_info:
         region: "{{ region_name }}"
-        image_ids: "{{ image_ids }}"
+        filters: 
+          name: "{{ os_name }}"
       register: ami_info
 
     - debug:
