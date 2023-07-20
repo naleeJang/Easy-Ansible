@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+
+  tasks:
+    - name: Select ami image
+      amazon.aws.ec2_ami_info:
+        filters:
+          name: "{{ os_name }}"
+      register: ami_info
+
+    - debug:
+        var: ami_info
