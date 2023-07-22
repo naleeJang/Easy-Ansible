@@ -24,7 +24,9 @@
         name: "{{ vm_info.instances[0].public_ip_address }}"
         inventory: inventory_aws
         state: present
-        controller_config_file: "~/tower_cli.cfg"
+        controller_host: "{{ controller_hostname }}"
+        controller_username: "{{ controller_username }}"
+        controller_password: "{{ controller_password }}"
 
     - name: Add host to hostgroup
       awx.awx.group:
@@ -33,5 +35,6 @@
         hosts:
           - "{{ vm_info.instances[0].public_ip_address }}"
         preserve_existing_hosts: True
-        controller_config_file: "~/tower_cli.cfg"
-
+        controller_host: "{{ controller_hostname }}"
+        controller_username: "{{ controller_username }}"
+        controller_password: "{{ controller_password }}"
