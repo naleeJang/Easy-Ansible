@@ -15,5 +15,21 @@
         region: "{{ region_name }}"
       register: vm_info
 
-    - debug:
+    - name: Print ec2 vm
+      ansible.builtin.debug:
         var: vm_info
+
+    - name: Add IP to inventory
+      awx.awx.host:
+        name: "{{ vm_info.vm_info.instances.public_ip_address }}"
+        inventory: inventory_aws
+        state: present
+
+    - name: Add host to hostgroup
+      awx.awx.group:
+        name: tnode
+        inventory: inventory_aws
+        hosts:
+          - "{{ vm_info.vm_info.instances.public_ip_address }}"
+        preserve_existing_hosts: True
+
