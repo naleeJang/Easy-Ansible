@@ -21,7 +21,7 @@
 
     - name: Add IP to inventory
       awx.awx.host:
-        name: "{{ vm_info.instances[0].public_ip_address }}"
+        name: "{{ vm_info.instances[0].public_dns_name }}"
         inventory: inventory_aws
         enabled: true
         state: present
@@ -34,7 +34,7 @@
         name: tnode
         inventory: inventory_aws
         hosts:
-          - "{{ vm_info.instances[0].public_ip_address }}"
+          - "{{ vm_info.instances[0].public_dns_name }}"
         preserve_existing_hosts: True
         controller_host: "{{ controller_hostname }}"
         controller_username: "{{ controller_username }}"
