@@ -23,6 +23,7 @@
       awx.awx.host:
         name: "{{ vm_info.instances[0].public_ip_address }}"
         inventory: inventory_aws
+        enabled: true
         state: present
         controller_host: "{{ controller_hostname }}"
         controller_username: "{{ controller_username }}"
