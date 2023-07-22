@@ -1,0 +1,6 @@
+---
+
+- hosts: tnode1-centos.exp.com
+  roles:
+    - role: myrole.chrony
+      ntp_server: 0.kr.pool.ntp.org

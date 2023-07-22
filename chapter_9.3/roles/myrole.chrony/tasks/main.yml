@@ -1,0 +1,20 @@
+---
+# tasks file for myrole.chrony
+
+- name: Import playbook
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_facts.distribution }}.yml"
+
+- name: Copy chrony config file when Ubuntu
+  ansible.builtin.template:
+    src: chrony.conf.j2
+    dest: /etc/chrony/chrony.conf
+  notify: "Restart chrony"
+  when: ansible_facts.distribution == "Ubuntu"
+
+- name: Copy chrony config file when Other OS
+  ansible.builtin.template:
+    src: chrony.conf.j2
+    dest: /etc/chrony.conf
+  notify: "Restart chrony"
+  when: ansible_facts.distribution in fedora_os  
