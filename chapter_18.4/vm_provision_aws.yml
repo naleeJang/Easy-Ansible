@@ -44,7 +44,7 @@
       ansible.builtin.wait_for:
         host: "{{ vm_info.instances[0].public_dns_name }}"
         port: 22
-        delay: 100
+        delay: 20
         connect_timeout: 100
         state: started
         search_regex: OpenSSH
