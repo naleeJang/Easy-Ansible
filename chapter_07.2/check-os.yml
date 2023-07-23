@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  vars:
+    supported_distros:
+      - RedHat
+      - CentOS
+
+  tasks:
+    - name: Print supported os
+      ansible.builtin.debug:
+        msg: "This {{ ansible_facts['distribution'] }} need to use dnf"
+      when: ansible_facts['distribution'] in supported_distros

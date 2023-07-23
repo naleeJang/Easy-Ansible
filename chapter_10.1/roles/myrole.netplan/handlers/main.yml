@@ -1,0 +1,5 @@
+---
+# handlers file for myrole.netplan
+
+- name: Netplan apply
+  ansible.builtin.command: netplan apply 

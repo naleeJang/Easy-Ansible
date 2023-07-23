@@ -1,0 +1,50 @@
+---
+
+- hosts: tnode
+  vars_files: vars_packages.yml
+
+  tasks:
+    - name: Install packages on RedHat
+      ansible.builtin.dnf:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ packages }}"
+      when: ansible_facts.os_family == "RedHat"
+
+    - name: Install packages on Ubuntu
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ packages }}"
+      when: ansible_facts.os_family == "Debian"
+
+    - name: Monitoring dstat
+      ansible.builtin.shell: |
+        {{ item }} >> {{ log_directory }}/dstat.log
+      loop:
+        - dstat 2 10
+        - dstat -cmdlt -D vda 2 10
+
+    - name: Monitoring iostat
+      ansible.builtin.shell: |
+        {{ item }} >> {{ log_directory }}/iostat.log
+      loop:
+        - iostat
+        - echo "==============="
+        - iostat -t -c -dp vda
+        - echo "==============="
+
+    - name: Monitoring vmstat
+      ansible.builtin.shell: |
+        {{ item }} >> {{ log_directory }}/vmstat.log
+      loop:
+        - vmstat
+        - echo "==============="
+        - vmstat -dt
+        - echo "==============="
+        - vmstat -D
+        - echo "==============="
+
+    - name: Monitoring df
+      ansible.builtin.shell: |
+        df -h >> {{ log_directory }}/df.log

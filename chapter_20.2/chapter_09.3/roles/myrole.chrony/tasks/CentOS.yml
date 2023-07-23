@@ -1,0 +1,6 @@
+---
+
+- name: Install chrony using dnf
+  ansible.builtin.dnf:
+    name: "{{ package_name }}"
+    state: latest

@@ -1,0 +1,6 @@
+[nfs_server]
+tnode1-centos.exp.com
+
+[nfs_client]
+tnode2-ubuntu.exp.com
+tnode3-rhel.exp.com

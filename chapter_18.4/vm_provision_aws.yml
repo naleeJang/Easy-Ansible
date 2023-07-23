@@ -15,39 +15,6 @@
         region: "{{ region_name }}"
       register: vm_info
 
-    - name: Print ec2 vm
+    - name: Print vm information
       ansible.builtin.debug:
         var: vm_info
-
-    - name: Add IP to inventory
-      awx.awx.host:
-        name: "{{ vm_info.instances[0].public_dns_name }}"
-        inventory: inventory_aws
-        enabled: true
-        state: present
-        controller_host: "{{ controller_hostname }}"
-        controller_username: "{{ controller_username }}"
-        controller_password: "{{ controller_password }}"
-
-    - name: Add host to hostgroup
-      awx.awx.group:
-        name: tnode
-        inventory: inventory_aws
-        hosts:
-          - "{{ vm_info.instances[0].public_dns_name }}"
-        preserve_existing_hosts: True
-        controller_host: "{{ controller_hostname }}"
-        controller_username: "{{ controller_username }}"
-        controller_password: "{{ controller_password }}"
-
-    - name: Wait for SSH to aws vm
-      ansible.builtin.wait_for:
-        host: "{{ vm_info.instances[0].public_dns_name }}"
-        port: 22
-        delay: 20
-        connect_timeout: 100
-        state: started
-        search_regex: OpenSSH
-
-
-

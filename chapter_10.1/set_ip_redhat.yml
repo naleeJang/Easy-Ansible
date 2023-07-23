@@ -1,0 +1,23 @@
+---
+
+- hosts: tnode3-rhel.exp.com
+  vars:
+    fedora_os: 
+      - CentOS
+      - RedHat
+    net_info:
+      - con_name: enp7s0
+        ip_addr: 192.168.20.7/24
+        ip_gw: 192.168.20.1
+        ip_dns: 192.168.20.1
+
+  tasks:
+  - name: Include role in CentOS and RedHat
+    ansible.builtin.include_role:
+      name: myrole.nmcli
+    when: ansible_facts.distribution in fedora_os
+
+  - name: Include role in Ubuntu
+    ansible.builtin.include_role:
+      name: myrole.netplan
+    when: ansible_facts.distribution == "Utuntu" 

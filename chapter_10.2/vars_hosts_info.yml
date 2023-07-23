@@ -1,0 +1,10 @@
+tnodes:
+  - hostname: tnode1-centos
+    fqdn: tnode1-centos.exp.com
+    net_ip: 192.168.100.5
+  - hostname: tnode2-ubuntu
+    fqdn: tnode2-ubuntu.exp.com
+    net_ip: 192.168.100.6
+  - hostname: tnode3-rhel
+    fqdn: tnode3-rhel.exp.com
+    net_ip: 192.168.100.7

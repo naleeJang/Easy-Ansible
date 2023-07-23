@@ -1,0 +1,28 @@
+---
+# tasks file for myrole.httpd
+
+- name: Make repo directory
+  ansible.builtin.file:
+    path: "{{ repo_dir }}"
+    state: directory
+
+- name: Install httpd
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ httpd_service }}"
+
+- name: Copy repo.conf file
+  ansible.builtin.copy:
+    src: ../files/repo.conf
+    dest: /etc/httpd/conf.d/
+  notify: 
+    - Restart httpd
+    - Reconfigure sefcontext
+
+- name: Add http to firewalld
+  ansible.posix.firewalld:
+    service: http
+    permanent: true
+    state: enabled
+  notify: Reload firewalld

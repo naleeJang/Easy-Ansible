@@ -1,0 +1,7 @@
+[tnode]
+tnode1-centos.exp.com
+tnode2-ubuntu.exp.com
+tnode3-rhel.exp.com
+
+[repo_node]
+tnode3-rhel.exp.com

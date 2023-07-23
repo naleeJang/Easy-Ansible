@@ -1,0 +1,53 @@
+---
+
+- hosts: localhost
+
+  tasks:
+    - name: Create ec2 vm
+      amazon.aws.ec2_instance:
+        name: "{{ vm_name }}"
+        image_id: "{{ image_id }}"
+        instance_type: "{{ instance_type }}"
+        key_name: "{{ key_name }}"
+        security_group: "{{ security_group }}"
+        network:
+          assign_public_ip: true
+        region: "{{ region_name }}"
+      register: vm_info
+
+    - name: Print ec2 vm
+      ansible.builtin.debug:
+        var: vm_info
+
+    - name: Add IP to inventory
+      awx.awx.host:
+        name: "{{ vm_info.instances[0].public_dns_name }}"
+        inventory: inventory_aws
+        enabled: true
+        state: present
+        controller_host: "{{ controller_hostname }}"
+        controller_username: "{{ controller_username }}"
+        controller_password: "{{ controller_password }}"
+
+    - name: Add host to hostgroup
+      awx.awx.group:
+        name: tnode
+        inventory: inventory_aws
+        hosts:
+          - "{{ vm_info.instances[0].public_dns_name }}"
+        preserve_existing_hosts: True
+        controller_host: "{{ controller_hostname }}"
+        controller_username: "{{ controller_username }}"
+        controller_password: "{{ controller_password }}"
+
+    - name: Wait for SSH to aws vm
+      ansible.builtin.wait_for:
+        host: "{{ vm_info.instances[0].public_dns_name }}"
+        port: 22
+        delay: 20
+        connect_timeout: 100
+        state: started
+        search_regex: OpenSSH
+
+
+

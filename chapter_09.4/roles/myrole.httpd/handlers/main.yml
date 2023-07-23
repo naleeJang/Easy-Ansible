@@ -1,0 +1,15 @@
+---
+# handlers file for myrole.httpd
+
+- name: Restart httpd
+  ansible.builtin.service:
+    name: httpd
+    state: restarted
+
+- name: Reload firewalld
+  ansible.builtin.systemd:
+    name: firewalld
+    state: reloaded
+
+- name: Reconfigure sefcontext
+  ansible.builtin.command: chcon -R -h -t httpd_sys_content_t /repo    

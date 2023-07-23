@@ -1,0 +1,13 @@
+# This is the network config written by 'ansible'
+network:
+  version: 2
+  ethernets:
+{% for item in net_info %}
+    {{ item.con_name }}:
+      dhcp4: no
+      dhcp6: no
+      addresses: [{{ item.ip_addr }}]
+      gateway4: {{ item.ip_gw }}
+      nameservers:
+        addresses: [{{ item.ip_dns }}]
+{% endfor %}

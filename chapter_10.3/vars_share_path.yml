@@ -1,0 +1,5 @@
+---
+
+share_server: tnode1-centos.exp.com
+share_path: /mnt/nfs_shares
+mount_path: /mnt/nfs_data

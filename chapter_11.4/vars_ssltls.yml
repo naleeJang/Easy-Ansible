@@ -1,0 +1,12 @@
+---
+
+country_name: KR
+orgarnization_name: SamSung
+ca_common_name: Ansible-CA
+server_common_name: exp.com
+certificate_days: "+3650d"
+ssl_tls_path: /home/ansible/tls
+ca_privatekey_path: /home/ansible/tls/ca_priv.key
+ca_certificate_path: /home/ansible/tls/ca_cert.crt
+server_privatekey_path: /home/ansible/tls/server_priv.key
+server_certificate_path: /home/ansible/tls/server_cert.crt

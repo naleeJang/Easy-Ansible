@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+
+  tasks:
+    - name: Get rsyslog service status
+      ansible.builtin.command: systemctl is-active rsyslog
+      register: result
+
+    - name: Print rsyslog status
+      ansible.builtin.debug:
+        msg: "Rsyslog status is {{ result.stdout }}"
+      when: result.stdout == "active"

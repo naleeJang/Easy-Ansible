@@ -1,0 +1,18 @@
+---
+
+- hosts: localhost
+  tasks:
+  - name : Create ssh key
+    ansible.builtin.user:
+      name: "{{ userid }}"
+      generate_ssh_key: true
+      ssh_key_bits: 2048
+      ssh_key_file: /home/{{ userid }}/.ssh/id_rsa
+
+- hosts: tnode 
+  tasks:
+  - name: Copy SSH Pub key
+    ansible.posix.authorized_key:
+      user: "{{ userid }}"
+      state: present
+      key: "{{ lookup('file', '/home/{{ userid }}/.ssh/id_rsa.pub') }}"

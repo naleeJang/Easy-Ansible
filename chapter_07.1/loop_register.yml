@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Loop echo test
+      ansible.builtin.shell: "echo 'I can speak {{ item }}'"
+      loop:
+        - Korean
+        - English
+      register: result
+
+    - name: Show result
+      ansible.builtin.debug:
+        var: result

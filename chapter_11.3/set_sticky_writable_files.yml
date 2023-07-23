@@ -1,0 +1,41 @@
+---
+
+- hosts: tnode
+
+  tasks:
+  - name: Find Sticky bit files
+    ansible.builtin.shell: |
+      find / -xdev -perm -04000 -o -perm -02000 -o -perm 01000 \
+      | grep -e 'dump$' \
+             -e 'lp*-lpd$' \ 
+             -e 'newgrp$' \
+             -e 'restore$' \
+             -e 'at$' \
+             -e 'traceroute$' | xargs ls
+    register: sfile_list
+
+  - name: Find World Writable files
+    ansible.builtin.shell: |
+      find / -xdev -perm -2 -ls \
+      | grep -v 'l..........' | awk '{print $NF}'
+    register: wfile_list
+
+  - name: Print Sticky bit files
+    ansible.builtin.debug:
+      msg: "{{ sfile_list.stdout_lines }}"
+
+  - name: Print World Writable files
+    ansible.builtin.debug:
+      msg: "{{ wfile_list.stdout_lines }}"
+
+  - name: Set Sticky bit files
+    ansible.builtin.file:
+      path: "{{ item }}"
+      mode: "u-s,g-s,o-s"
+    loop: "{{ sfile_list.stdout_lines }}"
+
+  - name: Set World Writable files
+    ansible.builtin.file:
+      path: "{{ item }}"
+      mode: "o-w"
+    loop: "{{ wfile_list.stdout_lines }}"

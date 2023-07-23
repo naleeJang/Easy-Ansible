@@ -1,0 +1,10 @@
+---
+
+- hosts: db
+
+  tasks:
+    - name: Print Root Directory Size
+      ansible.builtin.debug:
+        msg: "Directory {{ item.mount }} size is {{ item.size_available }}"
+      loop: "{{ ansible_facts['mounts'] }}"
+      when: item['mount'] == "/" and item['size_available'] > 300000000

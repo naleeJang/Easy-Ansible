@@ -1,0 +1,11 @@
+---
+
+- hosts: nfs_server
+  vars_files: vars_share_path.yml
+  roles:
+    - role: myrole.nfs_server
+
+- hosts: nfs_client
+  vars_files: vars_share_path.yml
+  roles:
+    - role: myrole.nfs_client

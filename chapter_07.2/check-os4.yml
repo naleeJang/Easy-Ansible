@@ -1,0 +1,16 @@
+---
+
+- hosts: all
+
+  tasks:
+    - name: Print os type
+      ansible.builtin.debug:
+        msg: >
+             OS Type: {{ ansible_facts['distribution'] }}
+             OS Version: {{ ansible_facts['distribution_version'] }}
+      when: > 
+          ( ansible_facts['distribution'] == "CentOS" and
+            ansible_facts['distribution_version'] == "8" )
+          or
+          ( ansible_facts['distribution'] == "Ubuntu" and
+            ansible_facts['distribution_version'] == "20.04" )

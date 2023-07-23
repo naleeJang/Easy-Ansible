@@ -1,0 +1,23 @@
+---
+# tasks file for myrole.rootCA
+
+- name: Create new private key for rootCA
+  community.crypto.openssl_privatekey:
+    path: "{{ ca_privatekey_path }}"
+
+- name: Create CSR for new certificate rootCA
+  community.crypto.openssl_csr_pipe:
+    privatekey_path: "{{ ca_privatekey_path }}"
+    country_name: "{{ country_name }}"
+    organization_name: "{{ orgarnization_name }}"
+    common_name: "{{ ca_common_name }}"
+  register: csr
+
+- name: Create Self-signed new certificate rootCA
+  community.crypto.x509_certificate:
+    path: "{{ ca_certificate_path }}"
+    privatekey_path: "{{ ca_privatekey_path }}"
+    csr_content: "{{ csr.csr }}"
+    selfsigned_not_after: "{{ certificate_days }}"
+    provider: selfsigned
+    state: present

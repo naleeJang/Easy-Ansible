@@ -1,0 +1,7 @@
+---
+# handlers file for myrole.chrony
+
+- name: Restart chrony
+  ansible.builtin.service:
+    name: "{{ service_name }}"
+    state: restarted

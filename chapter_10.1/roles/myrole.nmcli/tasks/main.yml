@@ -1,0 +1,13 @@
+---
+# tasks file for myrole.nmcli
+
+- name: Setup nic ip
+  community.general.nmcli:
+    type: ethernet
+    conn_name: "{{ item.con_name }}"
+    ip4: "{{ item.ip_addr }}"
+    gw4: "{{ item.ip_gw }}"
+    dns4: "{{ item.ip_dns }}"
+    state: present
+  loop: "{{ net_info }}"
+  when: net_info[0].con_name in ansible_facts.interfaces

@@ -1,0 +1,13 @@
+[web]
+tnode1-centos.exp.com 
+tnode2-ubuntu.exp.com 
+
+[db]
+tnode3-rhel.exp.com 
+
+[all:children]
+web
+db
+
+[all:vars]
+user=ansible

@@ -1,0 +1,36 @@
+---
+# tasks file for myrole.nfs-server
+
+- name: Install NFS packages
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ nfs_packages }}"
+
+- name: Create NFS export directory
+  ansible.builtin.file:
+    path: "{{ share_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Configure NFS exports
+  ansible.builtin.lineinfile:
+    path: "/etc/exports"
+    line: "{{ share_path }}    *(rw,sync)"
+    regexp: "^{{ share_path }}"
+    state: present
+    create: true
+  notify: Restart NFS Service
+
+- name: Add nfs to firewalld
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+  loop:
+    - nfs
+    - rpc-bind
+    - mountd 
+  notify: Reload firewalld

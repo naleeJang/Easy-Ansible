@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  vars:
+    user: ansible2
+
+  tasks:
+  - name: Create User {{ user }}
+    ansible.builtin.user:
+      name: "{{ user }}"
+      state: present

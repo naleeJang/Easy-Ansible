@@ -1,0 +1,51 @@
+# Created by ansible
+
+{% if minlen is defined %}
+# Minimum acceptable size for the new password
+minlen = {{ minlen }}
+{% endif %}
+
+{% if dcredit is defined %}
+# The maximum credit for having digits in the new password
+dcredit = {{ dcredit }}
+{% endif %}
+
+{% if ucredit is defined %}
+# The maximum credit for having uppercase characters in the new password
+ucredit = {{ ucredit }}
+{% endif %}
+
+{% if lcredit is defined %}
+# The maximum credit for having lowercase characters in the new password
+lcredit = {{ lcredit }}
+{% endif %}
+
+{% if ocredit is defined %}
+# The maximum credit for having other characters in the new password
+ocredit = {{ ocredit }}
+{% endif %}
+
+{% if minclass is defined %}
+# The minimum number of required classes of characters for the new password
+minclass = {{ minclass }}
+{% endif %}
+
+{% if maxrepeat is defined %}
+# The maximum number of allowed consecutive same characters in the new password
+maxrepeat = {{ maxrepeat}}
+{% endif %}
+
+{% if maxclassrepeat is defined %}
+# The maximum number of allowed consecutive characters of the same class in the new password
+maxclassrepeat = {{ maxclassreapt }}
+{% endif %}
+
+{% if retry is defined %}
+# Prompt user at most N times before returning with error
+retry = {{ retry }}
+{% endif %}
+
+{% if enforce_for_root is defined %}
+# Enforces pwquality checks on the root user password.
+enforce_for_root
+{% endif %}

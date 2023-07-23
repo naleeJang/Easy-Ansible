@@ -1,0 +1,15 @@
+---
+
+- hosts: rootCA
+  become: false
+  vars_files: vars_ssltls.yml
+
+  pre_tasks:
+    - name: Make ssl & tls directory
+      ansible.builtin.file:
+        path: "{{ ssl_tls_path }}"
+        state: directory
+
+  roles:
+    - role: myrole.rootCA
+    - role: myrole.serverKey

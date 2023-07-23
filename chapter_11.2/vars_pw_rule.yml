@@ -1,0 +1,8 @@
+---
+
+minlen: 8
+dcredit: -1
+ucredit: -1
+lcredit: -1
+ocredit: -1
+enforce_for_root: true

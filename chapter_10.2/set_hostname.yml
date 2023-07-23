@@ -1,0 +1,18 @@
+---
+
+- hosts: tnode
+  tasks: 
+  - name: Set hostname from inventory
+    ansible.builtin.hostname:
+      name: "{{ inventory_hostname }}"
+
+
+- hosts: all
+  vars_files: vars_hosts_info.yml 
+  tasks: 
+  - name: Add host ip to hosts
+    ansible.builtin.lineinfile:
+      path: /etc/hosts
+      line: "{{ item.net_ip }}  {{ item.hostname }} {{ item.fqdn }}"
+      regexp: "^{{ item.net_ip }}"
+    loop: "{{ tnodes }}"

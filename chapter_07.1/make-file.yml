@@ -1,0 +1,15 @@
+---
+
+- hosts: all
+
+  tasks:
+    - name: Create files
+      ansible.builtin.file:
+        path: "{{ item['log-path'] }}"
+        mode: "{{ item['log-mode'] }}"
+        state: touch
+      loop:
+        - log-path: /var/log/test1.log
+          log-mode: '0644'
+        - log-path: /var/log/test2.log
+          log-mode: '0600'

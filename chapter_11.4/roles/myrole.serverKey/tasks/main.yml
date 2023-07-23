@@ -1,0 +1,26 @@
+---
+# tasks file for myrole.serverKey
+
+- name: Create new private key for server key
+  community.crypto.openssl_privatekey:
+    path: "{{ server_privatekey_path }}"
+
+- name: Create CSR for new server key
+  community.crypto.openssl_csr_pipe:
+    privatekey_path: "{{ server_privatekey_path }}"
+    country_name: "{{ country_name }}"
+    organization_name: "{{ orgarnization_name }}"
+    common_name: "{{ server_common_name }}"
+  register: csr
+
+- name: Create Self-signed server key from rootCA
+  community.crypto.x509_certificate:
+    path: "{{ server_certificate_path }}"
+    privatekey_path: "{{ server_privatekey_path }}"
+    csr_content: "{{ csr.csr }}"
+    ownca_path: "{{ ca_certificate_path }}"
+    ownca_privatekey_path: "{{ ca_privatekey_path }}"
+    ownca_not_after: "{{ certificate_days }}"
+    provider: ownca
+    state: present
+
