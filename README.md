@@ -1,7 +1,7 @@
 # Welcome to Easy Ansible Examples
 
 안녕하세요!
-"처음 배우는 앤서블"의 저자 장현정입니다.
+"앤서블로 시작하는 인프라 자동화"의 저자 장현정입니다.
 
 본 GitHub Repository에서는 책에서 사용된 Ansible playbook 예제를 다운로드 받을 수 있습니다.
 
