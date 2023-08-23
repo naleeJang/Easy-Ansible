@@ -1,0 +1,13 @@
+---
+
+- hosts: tnode1-centos.exp.com
+
+  tasks:
+    - name: Run user add script
+      ansible.builtin.shell: /root/adduser-script.sh
+      register: command_result
+      failed_when: "'Please input user id and password' in command_result.stdout"
+
+    - name: Print msg
+      ansible.builtin.debug:
+        msg: "This task is next task"

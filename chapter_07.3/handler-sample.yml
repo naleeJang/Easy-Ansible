@@ -1,0 +1,16 @@
+---
+
+- hosts: tnode2-ubuntu.exp.com
+
+  tasks:
+    - name: restart rsyslog
+      ansible.builtin.service:
+        name: "rsyslog"
+        state: restarted
+      notify:
+        - print msg
+
+  handlers:
+    - name: print msg
+      ansible.builtin.debug:
+        msg: "rsyslog is restarted"
