@@ -1,0 +1,7 @@
+---
+# handlers file for my-role
+
+- name: restart service
+  ansible.builtin.service:
+    name: "{{ service_name }}"
+    state: restarted

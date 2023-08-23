@@ -1,0 +1,12 @@
+---
+
+- hosts: tnode1-centos.exp.com
+
+  tasks:
+    - name: Print start play
+      ansible.builtin.debug:
+        msg: "Let's start role play"
+
+    - name: Install Service by role
+      ansible.builtin.import_role:
+        name: my-role
